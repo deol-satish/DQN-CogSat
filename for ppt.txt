@@ -1,0 +1,49 @@
+class DQNCogSatEnv(gymnasium.Env):
+    """Gymnasium environment for MATLAB-based Cognitive Satellite Simulation"""
+ 
+    def __init__(self, env_config=None, render_mode=None):
+        super(DQNCogSatEnv, self).__init__()
+        if not hasattr(self, 'spec') or self.spec is None:
+            self.spec = gymnasium.envs.registration.EnvSpec("DQNCogSatEnv")        
+ 
+        # Define action and observation space
+        self.action_space = gymnasium.spaces.Discrete(self.LeoChannels)  # Select a channel index for one LEO
+
+        # Observation space structure
+        self.observation_space = Dict({
+            "utc_time": Box(low=-np.inf, high=np.inf, shape=(1,), dtype=np.int64),
+            "freq_lgs_leo": Box(low=1, high=self.LeoChannels, shape=(self.NumLeoUser,), dtype=np.int64),
+        })
+
+        self.reward = np.sum(SINR[:,self.tIndex])
+    
+
+
+
+
+gymnasium.register(
+    id='DQNCogSatEnv',
+    entry_point='env:DQNCogSatEnv',
+)
+
+# Initialize the environment
+env_id = "DQNCogSatEnv"
+env = DQNCogSatEnv()
+
+
+# Instantiate the model
+model = DQN(policy="MultiInputPolicy",env=env,learning_rate=1e-4,
+            buffer_size=50000,learning_starts=10,batch_size=16,
+            tau=1.0,gamma=0.99,
+            train_freq=4,
+            target_update_interval=10,
+            verbose=1)
+
+# Train the agent
+model.learn()
+# measure perofmance of training
+# Save the model
+model.save("dqn_cogsat")
+env.close()
+
+
