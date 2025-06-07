@@ -181,9 +181,10 @@ class CogSatEnv(gymnasium.Env):
         SINR = np.array(self.eng.workspace['SINR'])
         print("SINR[:,self.tIndex]: ", SINR[:,self.tIndex])
 
-        reward = -32.4115512468957
 
-        reward = np.sum(SINR[:,self.tIndex])
+        
+
+        reward = 140 + np.sum(SINR[:,self.tIndex])
         self.reward = reward
         print("Reward: ", reward)
         logging.info("=== Reward === %s", reward)
