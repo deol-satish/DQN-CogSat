@@ -167,8 +167,6 @@ class CogSatEnv(gymnasium.Env):
         print("Updated ChannelListLeo: ", np.array(self.eng.workspace['ChannelListLeo'])[self.curLEO_User_id, self.cur_leo_sat_id, self.tIndex])
 
 
-
-
         self.eng.eval("stepScenario", nargout=0)
         next_observation = self.get_state_from_matlab()     
         
@@ -179,19 +177,19 @@ class CogSatEnv(gymnasium.Env):
         truncated = False
 
         SINR = np.array(self.eng.workspace['SINR'])
-        Intf = np.array(self.eng.workspace['Intf'])
+        # Intf = np.array(self.eng.workspace['Intf'])
 
-        print('Intf: ', Intf)
-        logging.info("=== Interference === %s", Intf)
-        print("SINR[:,self.tIndex]: ", SINR[:,self.tIndex])
+        # print('Intf: ', Intf)
+        # logging.info("=== Interference === %s", Intf)
+        # print("SINR[:,self.tIndex]: ", SINR[:,self.tIndex])
 
 
-        reward =  np.sum(Intf[:,self.tIndex])  # Example reward calculation
+        # reward =  np.sum(Intf[:,self.tIndex])  # Example reward calculation
 
 
         
 
-        # reward = np.sum(SINR[:,self.tIndex])
+        reward = np.sum(SINR[:,self.tIndex])
         self.reward = reward
         print("Reward: ", reward)
         logging.info("=== Reward === %s", reward)
