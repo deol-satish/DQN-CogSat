@@ -179,8 +179,7 @@ class CogSatEnv(gymnasium.Env):
         truncated = False
 
         SINR = np.array(self.eng.workspace['SINR'])
-        Intf = np.array(self.eng.workspace['Pint_totaldB'])
-        Intf = np.array(self.eng.workspace['PintTotal_mW'])
+        Intf = np.array(self.eng.workspace['Intf'])
 
         print('Intf: ', Intf)
         logging.info("=== Interference === %s", Intf)
@@ -192,7 +191,7 @@ class CogSatEnv(gymnasium.Env):
 
         
 
-        # reward = 140 + np.sum(SINR[:,self.tIndex])
+        # reward = np.sum(SINR[:,self.tIndex])
         self.reward = reward
         print("Reward: ", reward)
         logging.info("=== Reward === %s", reward)

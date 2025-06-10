@@ -1,6 +1,7 @@
 fprintf('Interference calculation step...\n');
 T = length(ts);
 SINR = NaN(NumGS, T);  % [NumGS x T]
+Intf = NaN(NumGS, T);  % [NumGS x T]
 
 for t = 1:T
     PrxLEOt = PrxLEO(:, :, t);              % [NumGS x LEO]
@@ -71,6 +72,7 @@ for t = 1:T
         Noise_mW = 10^(ThermalNoisedBm / 10);
         SINR_mW = Psig_mW / (PintTotal_mW + Noise_mW);
         SINR(userIdx, t) = 10 * log10(SINR_mW);
+        Intf(userIdx, t) = PintTotal_mW;
 
         %% Print full debug info
         fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB\n', ...
