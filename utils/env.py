@@ -186,10 +186,29 @@ class CogSatEnv(gymnasium.Env):
 
         # reward =  np.sum(Intf[:,self.tIndex])  # Example reward calculation
 
+        # Compute reward: sum of SINR across all users at current time step
+        reward = np.sum(SINR[:,self.tIndex])
+
 
         
+        # # Compute reward: mean SINR across all users at current time step
+        # reward = np.sum(SINR[:,self.tIndex]) / (self.NumGeoUser + self.NumLeoUser)
 
-        reward = np.sum(SINR[:,self.tIndex])
+        # # Extract SINR values for all users at the current time step
+        # sinr_t = SINR[:, self.tIndex]
+
+        # # Compute reward: mean SINR across users at current time step
+        # reward = np.mean(sinr_t)
+
+        # # Compute mean and std for the same time step
+        # mu = np.mean(sinr_t)
+        # sigma = np.std(sinr_t)
+
+        # # Compute z-score (normalized reward)
+        # z_score = 0 if sigma == 0 else (reward - mu) / sigma
+
+        # reward = z_score  # Use z-score as the reward
+
         self.reward = reward
         print("Reward: ", reward)
         logging.info("=== Reward === %s", reward)

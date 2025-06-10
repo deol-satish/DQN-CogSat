@@ -20,6 +20,11 @@ for t = 1:length(ts)
         ChannelListGeo(GEOUsers, g, t) = randperm(NumGeoUser, NumGeoUser)';
     end
 end
+
+OriginalChannelListLeo = ChannelListLeo;  % Save original for later
+OriginalChannelListGeo = ChannelListGeo;  % Save original for later
+
+
 %% Finding the serving LEO for each LEO GS (20 x 31)
 fprintf('Finding the serving LEO for each LEO GS...\n');
 ActualPrxLEO = PrxLEO .*GSLEOFilter;
