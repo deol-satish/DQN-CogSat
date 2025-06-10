@@ -186,7 +186,7 @@ class CogSatEnv(gymnasium.Env):
         print("SINR[:,self.tIndex]: ", SINR[:,self.tIndex])
 
 
-        reward =  - 1 * np.sum(Intf[:,self.tIndex])  # Example reward calculation
+        reward =  np.sum(Intf[:,self.tIndex])  # Example reward calculation
 
 
         
