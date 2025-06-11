@@ -181,7 +181,8 @@ class CogSatEnv(gymnasium.Env):
         truncated = False
 
         SINR = np.array(self.eng.workspace['SINR'])
-        # Intf = np.array(self.eng.workspace['Intf'])
+        Intf = np.array(self.eng.workspace['Intf'])
+        Thrpt = np.array(self.eng.workspace['Thrpt'])
 
         # print('Intf: ', Intf)
         # logging.info("=== Interference === %s", Intf)
@@ -191,7 +192,20 @@ class CogSatEnv(gymnasium.Env):
         # reward =  np.sum(Intf[:,self.tIndex])  # Example reward calculation
 
         # Compute reward: sum of SINR across all users at current time step
-        reward = np.sum(SINR[:,self.tIndex])
+        Interference_to_geo_users = Intf[self.NumLeoUser:self.NumGeoUser+ self.NumLeoUser, self.tIndex]
+
+        reward = np.sum(SINR[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users)
+
+        reward = np.sum(math.log2(SINR[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users))
+
+        reward = np.sum(Thrpt[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users)
+
+        reward = np.sum(math.log2(Thrpt[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users))
+        
+        # If does not work, try np.sum(log2 of SINR[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users)
+        # If not SINR, use thrpt
+
+
 
 
         

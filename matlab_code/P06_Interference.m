@@ -2,6 +2,7 @@ fprintf('Interference calculation step...\n');
 T = length(ts);
 SINR = NaN(NumGS, T);  % [NumGS x T]
 Intf = NaN(NumGS, T);  % [NumGS x T]
+Thrpt = NaN(NumGS, T);  % [NumGS x T]
 
 for t = 1:T
     PrxLEOt = PrxLEO(:, :, t);              % [NumGS x LEO]
@@ -71,6 +72,7 @@ for t = 1:T
         Psig_mW = 10^(Psig_dBm / 10);
         Noise_mW = 10^(ThermalNoisedBm / 10);
         SINR_mW = Psig_mW / (PintTotal_mW + Noise_mW);
+        Thrpt(userIdx, t) = ChannelBW * log2(1 + SINR_mW);  % Shannon capacity in bits/s
         SINR(userIdx, t) = 10 * log10(SINR_mW);
         Intf(userIdx, t) = PintTotal_mW;
 

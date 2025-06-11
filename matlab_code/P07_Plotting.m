@@ -24,7 +24,6 @@ xlabel('User Index');
 ylabel('Mean SINR [dB]');
 title('Average SINR per User');
 grid on;
-ylim([10 25]);
 xline(NumGeoUser + 0.5, '--k', 'LineWidth', 1.2); 
 text(NumGeoUser/2, max(meanSINR)+0.5, 'LEO Users', 'HorizontalAlignment', 'center');
 text(NumGeoUser + NumLeoUser/2, max(meanSINR)+0.5, 'GEO Users', 'HorizontalAlignment', 'center');
