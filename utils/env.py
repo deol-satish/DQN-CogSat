@@ -222,7 +222,7 @@ class CogSatEnv(gymnasium.Env):
                 terminated = True
                 print("Episode finished after {} timesteps".format(self.tIndex))
                 logging.info("=== Episode finished after %s timesteps ===", self.tIndex)
-                self.eng.eval("P07_Plotting", nargout=0)
+                self.eng.eval("P08_SaveData", nargout=0)
 
         info = {}
 
@@ -257,6 +257,6 @@ class CogSatEnv(gymnasium.Env):
     def close(self):
         print("Saving MATLAB Data.")
         logging.info("=== Saving MATLAB Data ===")
-        # self.eng.eval("P07_Plotting", nargout=0)
+        self.eng.eval("P08_SaveData", nargout=0)
         self.eng.quit()
     
