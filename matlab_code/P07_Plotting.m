@@ -12,7 +12,7 @@ xlim([min(SINR(:))-1, max(SINR(:))+1]);
 ax=gca;
 grid on;ax.Box = 'on';set(gca,'LooseInset',get(gca,'TightInset'),'FontSize',12);
 ax.LineWidth = 1;  % Set box (axis) thickness to 1.5 points
-saveLocation = 'G:\Work\Github\CogSat\Figures';
+saveLocation ="./";
 Filename = fullfile(saveLocation, 'Figure1');
 print(h_Fig, '-dpng','-r600',Filename)
 %% Compute average SINR per user
@@ -24,13 +24,14 @@ xlabel('User Index');
 ylabel('Mean SINR [dB]');
 title('Average SINR per User');
 grid on;
+ylim([10 25]);
 xline(NumGeoUser + 0.5, '--k', 'LineWidth', 1.2); 
 text(NumGeoUser/2, max(meanSINR)+0.5, 'LEO Users', 'HorizontalAlignment', 'center');
 text(NumGeoUser + NumLeoUser/2, max(meanSINR)+0.5, 'GEO Users', 'HorizontalAlignment', 'center');
 ax=gca;
 grid on;ax.Box = 'on';set(gca,'LooseInset',get(gca,'TightInset'),'FontSize',12);
 ax.LineWidth = 1;  % Set box (axis) thickness to 1.5 points
-saveLocation = 'G:\Work\Github\CogSat\Figures';
+saveLocation ="./";
 Filename = fullfile(saveLocation, 'Figure2');
 print(h_Fig, '-dpng','-r600',Filename)
 %%  Per-Satellite/User SINR Timeline Plot
@@ -67,7 +68,7 @@ xtickformat('HH:mm');
 ax=gca;
 grid on;ax.Box = 'on';set(gca,'LooseInset',get(gca,'TightInset'),'FontSize',10);
 ax.LineWidth = 1;  % Set box (axis) thickness to 1.5 points
-saveLocation = 'G:\Work\Github\CogSat\Figures';
+saveLocation ="./";
 % Filename = fullfile(saveLocation, 'Figure3');
 % print(h_Fig, '-dpng','-r600',Filename)
 %% Heatmap of SINR Over Time
