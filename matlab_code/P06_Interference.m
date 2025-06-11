@@ -72,13 +72,16 @@ for t = 1:T
         Psig_mW = 10^(Psig_dBm / 10);
         Noise_mW = 10^(ThermalNoisedBm / 10);
         SINR_mW = Psig_mW / (PintTotal_mW + Noise_mW);
-        Thrpt(userIdx, t) = ChannelBW * log2(1 + SINR_mW);  % Shannon capacity in bits/s
+        Thrpt(userIdx, t) = (ChannelBW * log2(1 + SINR_mW))/(1024*1024);  % Shannon capacity in bits/s
         SINR(userIdx, t) = 10 * log10(SINR_mW);
-        Intf(userIdx, t) = PintTotal_mW;
+        Intf(userIdx, t) = Pint_totaldB;
 
         %% Print full debug info
-        fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB\n', ...
-            t, userIdx, ch_user, Psig_dBm, Pint_totaldB, SINR(userIdx, t));
+        % fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB\n', ...
+        %     t, userIdx, ch_user, Psig_dBm, Pint_totaldB, SINR(userIdx, t));
+        fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB, Thrpt=%.2f mps\n', ...
+            t, userIdx, ch_user, Psig_dBm, Pint_totaldB, SINR(userIdx, t), Thrpt(userIdx, t));
+
         
         if ~isempty(interferersLEO)
             fprintf('    ↳ LEO Interferers: %s\n', mat2str(interferersLEO));
