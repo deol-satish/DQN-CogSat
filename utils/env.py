@@ -180,52 +180,34 @@ class CogSatEnv(gymnasium.Env):
         terminated = False
         truncated = False
 
-        SINR = np.array(self.eng.workspace['SINR'])
-        Intf = np.array(self.eng.workspace['Intf'])
+        SINR = np.array(self.eng.workspace['SINR_mW'])
+        Intf = np.array(self.eng.workspace['Intf_mW'])
         Thrpt = np.array(self.eng.workspace['Thrpt'])
 
-        # print('Intf: ', Intf)
-        # logging.info("=== Interference === %s", Intf)
-        # print("SINR[:,self.tIndex]: ", SINR[:,self.tIndex])
-
-
-        # reward =  np.sum(Intf[:,self.tIndex])  # Example reward calculation
+        print('Intf: ', Intf)
+        print('SINR: ', SINR)
+        print('Thrpt: ', Thrpt)
+        logging.info("=== Interference === %s", Intf)
+        logging.info("=== SINR === %s", SINR)
+        logging.info("=== Throughput === %s", Thrpt)
+        
 
         # Compute reward: sum of SINR across all users at current time step
         Interference_to_geo_users = Intf[self.NumLeoUser:self.NumGeoUser+ self.NumLeoUser, self.tIndex]
+        SINR_of_LEO_users = SINR[:self.NumLeoUser, self.tIndex]
+        Thrpt_of_LEO_users = Thrpt[:self.NumLeoUser, self.tIndex]
 
-        reward = np.sum(SINR[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users)
-
-        reward = np.sum(math.log2(SINR[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users))
-
-        reward = np.sum(Thrpt[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users)
-
-        reward = np.sum(math.log2(Thrpt[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users))
+        # Option 1
+        reward = np.sum(SINR_of_LEO_users / Interference_to_geo_users)
         
-        # If does not work, try np.sum(log2 of SINR[:self.NumLeoUser,self.tIndex] / Interference_to_geo_users)
-        # If not SINR, use thrpt
+        # Option 2
+        reward = np.sum(np.log10(SINR_of_LEO_users / Interference_to_geo_users))
 
+        # Option 3
+        reward = np.sum(Thrpt_of_LEO_users)
 
-
-
-        
-        # # Compute reward: mean SINR across all users at current time step
-        # reward = np.sum(SINR[:,self.tIndex]) / (self.NumGeoUser + self.NumLeoUser)
-
-        # # Extract SINR values for all users at the current time step
-        # sinr_t = SINR[:, self.tIndex]
-
-        # # Compute reward: mean SINR across users at current time step
-        # reward = np.mean(sinr_t)
-
-        # # Compute mean and std for the same time step
-        # mu = np.mean(sinr_t)
-        # sigma = np.std(sinr_t)
-
-        # # Compute z-score (normalized reward)
-        # z_score = 0 if sigma == 0 else (reward - mu) / sigma
-
-        # reward = z_score  # Use z-score as the reward
+        # Option 4
+        reward = np.sum(np.log10(Thrpt_of_LEO_users))
 
         self.reward = reward
         print("Reward: ", reward)

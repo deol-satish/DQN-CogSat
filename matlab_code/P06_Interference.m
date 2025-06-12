@@ -3,6 +3,8 @@ T = length(ts);
 SINR = NaN(NumGS, T);  % [NumGS x T]
 Intf = NaN(NumGS, T);  % [NumGS x T]
 Thrpt = NaN(NumGS, T);  % [NumGS x T]
+SINR_mW = NaN(NumGS, T);  % [NumGS x T]
+Intf_mW = NaN(NumGS, T);  % [NumGS x T]
 
 for t = 1:T
     PrxLEOt = PrxLEO(:, :, t);              % [NumGS x LEO]
@@ -74,6 +76,8 @@ for t = 1:T
         SINR_mW = Psig_mW / (PintTotal_mW + Noise_mW);
         Thrpt(userIdx, t) = (ChannelBW * log2(1 + SINR_mW))/(1024*1024);  % Shannon capacity in bits/s
         SINR(userIdx, t) = 10 * log10(SINR_mW);
+        SINR_mW(userIdx, t) = SINR_mW;
+        Intf_mW(userIdx, t) = PintTotal_mW;
         Intf(userIdx, t) = Pint_totaldB;
 
         %% Print full debug info
