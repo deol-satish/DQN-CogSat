@@ -83,8 +83,15 @@ for t = 1:T
         %% Print full debug info
         % fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB\n', ...
         %     t, userIdx, ch_user, Psig_dBm, Pint_totaldB, SINR(userIdx, t));
-        fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB, Thrpt=%.2f mps\n', ...
-            t, userIdx, ch_user, Psig_dBm, Pint_totaldB, SINR(userIdx, t), Thrpt(userIdx, t));
+
+        %% Print PintTotal_mW separately
+        fprintf('→ [DEBUG] Total Interference Power (PintTotal_mW*1e8): %.6f mW\n', PintTotal_mW*1e8);
+        fprintf('→ [DEBUG] Total Interference Power (Pint_totaldB): %.6f dB\n', Pint_totaldB);
+
+
+        fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm (%.2f mW), SINR=%.2f dB (%.2f mW), Thrpt=%.2f mps\n', ...
+            t, userIdx, ch_user, Psig_dBm, Pint_totaldB, Intf_mW(userIdx, t), SINR(userIdx, t), SINR_mW(userIdx, t), Thrpt(userIdx, t));
+
 
         
         if ~isempty(interferersLEO)
