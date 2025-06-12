@@ -180,16 +180,11 @@ class CogSatEnv(gymnasium.Env):
         terminated = False
         truncated = False
 
-        SINR = np.array(self.eng.workspace['SINR_mW'])
-        Intf = np.array(self.eng.workspace['Intf_mW'])
+        SINR = np.array(self.eng.workspace['SINR_mW_dict'])
+        Intf = np.array(self.eng.workspace['Intf_mW_dict'])
         Thrpt = np.array(self.eng.workspace['Thrpt'])
 
-        print('Intf: ', Intf)
-        print('SINR: ', SINR)
-        print('Thrpt: ', Thrpt)
-        logging.info("=== Interference === %s", Intf)
-        logging.info("=== SINR === %s", SINR)
-        logging.info("=== Throughput === %s", Thrpt)
+
         
 
         # Compute reward: sum of SINR across all users at current time step
@@ -197,17 +192,24 @@ class CogSatEnv(gymnasium.Env):
         SINR_of_LEO_users = SINR[:self.NumLeoUser, self.tIndex]
         Thrpt_of_LEO_users = Thrpt[:self.NumLeoUser, self.tIndex]
 
+        print('Intf: ', Interference_to_geo_users*1e8)
+        print('SINR: ', SINR_of_LEO_users)
+        print('Thrpt: ', Thrpt_of_LEO_users)
+        logging.info("=== Interference === %s", Interference_to_geo_users*1e8)
+        logging.info("=== SINR === %s", SINR_of_LEO_users)
+        logging.info("=== Throughput === %s", Thrpt_of_LEO_users)
+
         # Option 1
-        reward = np.sum(SINR_of_LEO_users / Interference_to_geo_users)
+        reward = np.sum(SINR_of_LEO_users)
         
-        # Option 2
-        reward = np.sum(np.log10(SINR_of_LEO_users / Interference_to_geo_users))
+        # # Option 2
+        # reward = np.sum(np.log10(SINR_of_LEO_users))
 
-        # Option 3
-        reward = np.sum(Thrpt_of_LEO_users)
+        # # Option 3
+        # reward = np.sum(Thrpt_of_LEO_users)
 
-        # Option 4
-        reward = np.sum(np.log10(Thrpt_of_LEO_users))
+        # # Option 4
+        # reward = np.sum(np.log10(Thrpt_of_LEO_users))
 
         self.reward = reward
         print("Reward: ", reward)
