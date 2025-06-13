@@ -3,7 +3,7 @@ fprintf('Channel allocation...\n');
 % Define number of channels based of number of LEO and GEO users + 5 extra
 % Each GEO users will always have its own channel
 % LEO users will always share all channel randemoly assigned with unique channels per timestep
-numChannels = 15;
+numChannels = 10;
 channelPool = 1:numChannels;
 % numChannels = 5 + NumLeoUser + NumGeoUser;
 ChannelListLeo = nan(NumGS, leoNum, length(ts));
@@ -13,8 +13,8 @@ GEOUsers = find(GSGEOFilter);  % e.g., 11:20
 % Only Assign Channels to Valid Users (LEO or GEO)
 for t = 1:length(ts)
     for s = 1:leoNum
-        ChannelListLeo(LEOUsers, s, t) = randperm(numChannels, NumLeoUser);
-        % ChannelListLeo(LEOUsers, s, t) = randsample(channelPool,length(LEOUsers),true);
+        % ChannelListLeo(LEOUsers, s, t) = randperm(numChannels, NumLeoUser);
+        ChannelListLeo(LEOUsers, s, t) = randsample(channelPool,length(LEOUsers),true);
     end
     for g = 1:geoNum
         ChannelListGeo(GEOUsers, g, t) = randperm(NumGeoUser, NumGeoUser)';
