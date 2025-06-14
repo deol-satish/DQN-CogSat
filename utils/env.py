@@ -7,7 +7,7 @@ import json
 import math
 from datetime import datetime, timedelta, timezone
 
-env_name = "NermineCogSatEnv-v1"
+env_name = "CogSatEnv-v1"
 
 # Configure the logger
 logging.basicConfig(
