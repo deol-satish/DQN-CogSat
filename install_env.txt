@@ -1,0 +1,17 @@
+conda install -c conda-forge stable-baselines3
+conda install -c conda-forge gymnasium
+conda install -c conda-forge tensorboard 
+pip install geohash
+
+
+## Run anaconda terminal as administrator
+# Go to Directory C:\Program Files\MATLAB\R2024b\extern\engines\python
+Then run this in respective conda environment:
+python setup.py install
+
+# This is the same as setup.py install but cleaner and better for package management.
+python -m pip install .
+
+
+pip install matlabengine
+pip uninstall matlabengine

@@ -1,5 +1,4 @@
 %% Visualization
-save('DQN_workspace_Saved_data.mat')
 
 Scale = 0.7;
 h_Fig=figure('PaperPositionMode', 'manual','PaperUnits','inches','PaperPosition',[0 0 3.5*2 3.5*2/1.618*Scale],'Position',[200 300 800 800/1.618*Scale]);

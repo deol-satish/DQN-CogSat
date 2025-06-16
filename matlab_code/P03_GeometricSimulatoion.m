@@ -35,3 +35,5 @@ for i= 1:length(GS)
     [~,ElGEO(i,:,:), RhoGEO(i,:,:)] = aer(GS{i},geoSats{1});
     % disp (i)
 end
+
+

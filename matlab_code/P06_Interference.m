@@ -1,4 +1,4 @@
-fprintf('Interference calculation step...\n');
+%% fprintf('Interference calculation step...\n');
 T = length(ts);
 SINR = NaN(NumGS, T);  % [NumGS x T]
 Intf = NaN(NumGS, T);  % [NumGS x T]
@@ -84,21 +84,21 @@ for t = 1:T
         % fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm, SINR=%.2f dB\n', ...
         %     t, userIdx, ch_user, Psig_dBm, Pint_totaldB, SINR(userIdx, t));
 
-        %% Print PintTotal_mW separately
-        fprintf('→ [DEBUG] Total Interference Power (PintTotal_mW*1e8): %.6f \n', PintTotal_mW*1e8);
-        fprintf('→ [DEBUG] Total Interference Power (Pint_totaldB): %.6f dB\n', Pint_totaldB);
-
-
-        fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm (%.2f mW), SINR=%.2f dB (%.2f mW), Thrpt=%.2f mps\n', ...
-            t, userIdx, ch_user, Psig_dBm, Pint_totaldB, Intf_mW_dict(userIdx, t), SINR(userIdx, t), SINR_mW_dict(userIdx, t), Thrpt(userIdx, t));
-
-
-        
-        if ~isempty(interferersLEO)
-            fprintf('    ↳ LEO Interferers: %s\n', mat2str(interferersLEO));
-        end
-        if ~isempty(interferersGEO)
-            fprintf('    ↳ GEO Interferers: %s\n', mat2str(interferersGEO));
-        end
+        % %% Print PintTotal_mW separately
+        % fprintf('→ [DEBUG] Total Interference Power (PintTotal_mW*1e8): %.6f \n', PintTotal_mW*1e8);
+        % fprintf('→ [DEBUG] Total Interference Power (Pint_totaldB): %.6f dB\n', Pint_totaldB);
+        % 
+        % 
+        % fprintf('[t=%d] User %d → Channel %d: Psig=%.2f dBm, Interf=%.2f dBm (%.2f mW), SINR=%.2f dB (%.2f mW), Thrpt=%.2f mps\n', ...
+        %     t, userIdx, ch_user, Psig_dBm, Pint_totaldB, Intf_mW_dict(userIdx, t), SINR(userIdx, t), SINR_mW_dict(userIdx, t), Thrpt(userIdx, t));
+        % 
+        % 
+        % 
+        % if ~isempty(interferersLEO)
+        %     fprintf('    ↳ LEO Interferers: %s\n', mat2str(interferersLEO));
+        % end
+        % if ~isempty(interferersGEO)
+        %     fprintf('    ↳ GEO Interferers: %s\n', mat2str(interferersGEO));
+        % end
     end
 end
