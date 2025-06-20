@@ -75,7 +75,9 @@ class CogSatEnv(gymnasium.Env):
             "freq_ggs_geo": np.random.uniform(1.0, self.GeoChannels, size=(self.NumGeoUser,)).astype(np.int64),
             "leo_user_id": np.array([0], dtype=np.int64),
             "leo_pos": np.random.uniform(0, 20, size=(self.NumLeoUser*2,)).astype(np.float32),
-        }         
+        }
+        self.eng.eval("stepScenario", nargout=0)
+        self.save_npy_data('Baseline')  
         
  
         # Define action and observation space
