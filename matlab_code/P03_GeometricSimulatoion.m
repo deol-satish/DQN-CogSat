@@ -35,5 +35,36 @@ for i= 1:length(GS)
     [~,ElGEO(i,:,:), RhoGEO(i,:,:)] = aer(GS{i},geoSats{1});
     % disp (i)
 end
-
+%% Get Satellite Positions in ECEF or ECI
+satPos = states(leoSats, 'CoordinateFrame', 'ecef');
+% satPos = states(leoSats, 'CoordinateFrame', 'inertial');
+satPos = permute(satPos, [1 3 2]);
+%% Get Off-axis angle θ and Azimuth between beam and user (from satellite prespective
+leotheta = zeros(NumGS, leoNum, length(ts));
+leoAzimuth = zeros(NumGS, leoNum, length(ts));
+for t = 1:length(ts)
+    for s = 1:leoNum
+        sat_xyz = satPos(:, s, t);         % [3×1] ECEF of satellite
+        boresight = -sat_xyz;              % Beam points toward Earth center- off-Nadir angle
+        % Compute satellite geodetic position (subpoint) at current timestep
+        [latSat, lonSat, hSat] = ecef2geodetic(E, sat_xyz(1), sat_xyz(2), sat_xyz(3));
+        
+        for g = 1:NumGS
+            gs_xyz = GSECEF(g, :)';        % [3×1] ECEF of ground station
+            vec_user = gs_xyz - sat_xyz;   % Vector from sat to ground station
+            % Off-axis angle θ between beam and user
+            leotheta(g, s, t) = acos(dot(boresight, vec_user) / ...
+                                 (norm(boresight) * norm(vec_user))); % Angle from satellite to GS w.r.t. nadir
+            
+            % For sinc pattern antenna, azimuth angle is required in addition to thetaa
+            % Compute NED coordinates of the ground station relative to satellite
+            [xNorth, yEast, zDown] = ecef2ned(gs_xyz(1), gs_xyz(2), gs_xyz(3), ...
+                                              latSat, lonSat, hSat, E, 'radians');
+            
+            % Convert NED to Azimuth, Depression, Range
+            [Az, ~, ~] = ned2aer(xNorth, yEast, -zDown, 'radians');  % Note the negative zDown
+            leoAzimuth(g, s, t) = Az;
+        end
+    end
+end
 

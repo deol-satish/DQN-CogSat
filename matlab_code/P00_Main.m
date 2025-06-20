@@ -23,9 +23,7 @@ P04_RxSimulation
 % load('Power');
 P05_ChannelAllocation
 
-% % save('Data');
-% %% Interference calculation
+% save('Data');
+%% Interference calculation
 P06_Interference
-% P07_Plotting
 
-P08_SaveData
